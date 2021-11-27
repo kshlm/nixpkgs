@@ -2573,6 +2573,10 @@ with pkgs;
 
   clipster = callPackage ../tools/misc/clipster { };
 
+  clockify = callPackage ../applications/office/clockify {
+    electron = electron_11;
+  };
+
   contrast = callPackage ../applications/accessibility/contrast { };
 
   cplex = callPackage ../applications/science/math/cplex (config.cplex or {});
@@ -4457,7 +4461,7 @@ with pkgs;
   deer = callPackage ../shells/zsh/zsh-deer { };
 
   delta = callPackage ../applications/version-management/git-and-tools/delta {
-    inherit (darwin.apple_sdk.frameworks) Security;
+    inherit (darwin.apple_sdk.frameworks) DiskArbitration Foundation Security;
   };
 
   deno = callPackage ../development/web/deno {
@@ -4863,9 +4867,7 @@ with pkgs;
 
   vorta = libsForQt5.callPackage ../applications/backup/vorta { };
 
-  vowpal-wabbit = callPackage ../applications/science/machine-learning/vowpal-wabbit {
-    boost = boost17x;
-  };
+  vowpal-wabbit = callPackage ../applications/science/machine-learning/vowpal-wabbit { };
 
   utahfs = callPackage ../applications/networking/utahfs { };
 
@@ -6316,6 +6318,8 @@ with pkgs;
   http-prompt = callPackage ../tools/networking/http-prompt { };
 
   http-getter = callPackage ../applications/networking/flent/http-getter.nix { };
+
+  httpdirfs = callPackage ../tools/filesystems/httpdirfs { };
 
   httpdump = callPackage ../tools/security/httpdump { };
 
@@ -15177,6 +15181,8 @@ with pkgs;
 
   rnix-lsp = callPackage ../development/tools/rnix-lsp { };
 
+  rnginline = with python3Packages; toPythonApplication rnginline;
+
   rolespec = callPackage ../development/tools/misc/rolespec { };
 
   rr = callPackage ../development/tools/analysis/rr { };
@@ -15450,9 +15456,7 @@ with pkgs;
   uefi-firmware-parser = callPackage ../development/tools/analysis/uefi-firmware-parser { };
 
   uhd3_5 = callPackage ../applications/radio/uhd/3.5.nix { };
-  uhd = callPackage ../applications/radio/uhd {
-    boost = boost17x;
-  };
+  uhd = callPackage ../applications/radio/uhd { };
 
   uisp = callPackage ../development/embedded/uisp { };
 
@@ -15778,12 +15782,13 @@ with pkgs;
     boost173
     boost174
     boost175
+    boost177
   ;
 
   boost15x = boost159;
   boost16x = boost169;
-  boost17x = boost175;
-  boost = boost16x;
+  boost17x = boost177;
+  boost = boost17x;
 
   boost_process = callPackage ../development/libraries/boost-process { };
 
@@ -16150,9 +16155,8 @@ with pkgs;
 
   faad2 = callPackage ../development/libraries/faad2 { };
 
-  factor-lang = callPackage ../development/compilers/factor-lang {
-    inherit (gnome2) gtkglext;
-  };
+  factor-lang-scope = callPackage ../development/compilers/factor-lang/scope.nix { };
+  factor-lang = factor-lang-scope.interpreter;
 
   far2l = callPackage ../applications/misc/far2l {
     stdenv = if stdenv.cc.isClang then llvmPackages.stdenv else stdenv;
@@ -16195,6 +16199,7 @@ with pkgs;
   ffmpeg-full = callPackage ../development/libraries/ffmpeg-full {
     svt-av1 = if stdenv.isAarch64 then null else svt-av1;
     rav1e = null; # We already have SVT-AV1 for faster encoding
+    rtmpdump = null; # Prefer the built-in RTMP implementation
     # The following need to be fixed on Darwin
     libjack2 = if stdenv.isDarwin then null else libjack2;
     libmodplug = if stdenv.isDarwin then null else libmodplug;
@@ -18808,7 +18813,7 @@ with pkgs;
   nghttp2 = callPackage ../development/libraries/nghttp2 { };
   libnghttp2 = nghttp2.lib;
 
-  nix-plugins = callPackage ../development/libraries/nix-plugins { nix = nix_2_3; };
+  nix-plugins = callPackage ../development/libraries/nix-plugins { };
 
   nika-fonts = callPackage ../data/fonts/nika-fonts { };
 
@@ -20126,6 +20131,8 @@ with pkgs;
   wildmidi = callPackage ../development/libraries/wildmidi { };
 
   wiredtiger = callPackage ../development/libraries/wiredtiger { };
+
+  wlr-protocols = callPackage ../development/libraries/wlroots/protocols.nix { };
 
   wt = wt4;
   inherit (callPackages ../development/libraries/wt {})
@@ -21487,14 +21494,10 @@ with pkgs;
     libtool = darwin.cctools;
   };
 
-  # Fails to compile with boost >= 1.72
-  rippled = callPackage ../servers/rippled {
-    boost = boost17x;
-  };
+  # Fails to compile with boost <= 1.72
+  rippled = callPackage ../servers/rippled { };
 
-  rippled-validator-keys-tool = callPackage ../servers/rippled/validator-keys-tool.nix {
-    boost = boost17x;
-  };
+  rippled-validator-keys-tool = callPackage ../servers/rippled/validator-keys-tool.nix { };
 
   roon-bridge = callPackage ../servers/roon-bridge { };
 
@@ -25042,7 +25045,6 @@ with pkgs;
     unwrapped = callPackage ../applications/radio/gnuradio {
       inherit (darwin.apple_sdk.frameworks) CoreAudio;
       python = python3;
-      boost = boost17x;
     };
   };
   gnuradioPackages = lib.recurseIntoAttrs gnuradio.pkgs;
@@ -25075,7 +25077,6 @@ with pkgs;
     unwrapped = callPackage ../applications/radio/gnuradio/3.8.nix {
       inherit (darwin.apple_sdk.frameworks) CoreAudio;
       python = python3;
-      boost = boost17x;
     };
   };
   gnuradio3_8Packages = lib.recurseIntoAttrs gnuradio3_8.pkgs;
@@ -27806,9 +27807,7 @@ with pkgs;
 
   qmapshack = libsForQt5.callPackage ../applications/gis/qmapshack { };
 
-  qmediathekview = libsForQt5.callPackage ../applications/video/qmediathekview {
-    boost = boost17x;
-  };
+  qmediathekview = libsForQt5.callPackage ../applications/video/qmediathekview { };
 
   qmplay2 = libsForQt5.callPackage ../applications/video/qmplay2 { };
 
@@ -29748,16 +29747,11 @@ with pkgs;
 
   monero = callPackage ../applications/blockchains/monero {
     inherit (darwin.apple_sdk.frameworks) CoreData IOKit PCSC;
-    boost = boost17x;
   };
 
-  oxen = callPackage ../applications/blockchains/oxen {
-    boost = boost17x;
-  };
+  oxen = callPackage ../applications/blockchains/oxen { };
 
-  monero-gui = libsForQt5.callPackage ../applications/blockchains/monero-gui {
-    boost = boost17x;
-  };
+  monero-gui = libsForQt5.callPackage ../applications/blockchains/monero-gui { };
 
   masari = callPackage ../applications/blockchains/masari { boost = boost165; };
 
@@ -30371,6 +30365,8 @@ with pkgs;
   neverball = callPackage ../games/neverball { };
 
   nexuiz = callPackage ../games/nexuiz { };
+
+  nux = callPackage ../tools/misc/nux { };
 
   ninvaders = callPackage ../games/ninvaders { };
 

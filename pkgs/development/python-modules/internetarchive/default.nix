@@ -15,6 +15,7 @@
 , lib
 , glibcLocales
 , setuptools
+, urllib3
 }:
 
 buildPythonPackage rec {
@@ -36,6 +37,7 @@ buildPythonPackage rec {
     args
     schema
     setuptools
+    urllib3
   ] ++ lib.optionals (!isPy3k) [ backports_csv ];
 
   checkInputs = [ pytest responses glibcLocales ];

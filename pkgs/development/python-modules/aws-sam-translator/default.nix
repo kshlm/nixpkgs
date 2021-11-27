@@ -20,7 +20,7 @@ buildPythonPackage rec {
     owner = "aws";
     repo = "serverless-application-model";
     rev = "v${version}";
-    sha256 = "1msswb1jylwjyzfz8b4vlxr126a11bn5na9sh1dqjbsgdjr12dx6";
+    sha256 = "sha256-pjcRsmxPL4lbgDopW+wKQRkRcqebLPTd95JTL8PiWtc=";
   };
 
   propagatedBuildInputs = [
